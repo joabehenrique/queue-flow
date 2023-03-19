@@ -1,6 +1,7 @@
 package com.joabehenrique.queueflow.service;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.joabehenrique.queueflow.dto.QueueDTO;
 import com.joabehenrique.queueflow.entity.Queue;
 import com.joabehenrique.queueflow.messaging.MessageSender;
@@ -12,10 +13,9 @@ public class QueueService {
     @Autowired
     private MessageSender messageSender;
 
-    public Queue processMyModel(QueueDTO queue) {
-        Queue queueNew = new Queue("ei", 1);
-        String a = "aaa";
-        messageSender.sendMessage(a);
+    public Queue processMyModel(QueueDTO queue) throws JsonProcessingException {
+        messageSender.sendMessage(queue);
+        Queue queueNew = new Queue(queue.getField1(), queue.getField2());
         return queueNew;
     }
 }

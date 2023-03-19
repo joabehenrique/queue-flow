@@ -1,5 +1,6 @@
 package com.joabehenrique.queueflow.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.joabehenrique.queueflow.dto.QueueDTO;
 import com.joabehenrique.queueflow.entity.Queue;
 import com.joabehenrique.queueflow.service.QueueService;
@@ -19,7 +20,7 @@ public class QueueController {
     private QueueService myService;
 
     @PostMapping
-    public ResponseEntity<Queue> myEndpoint(@RequestBody QueueDTO queueBody) {
+    public ResponseEntity<Queue> myEndpoint(@RequestBody QueueDTO queueBody) throws JsonProcessingException {
         Queue queue = myService.processMyModel(queueBody);
         return new ResponseEntity<>(queue, HttpStatus.CREATED);
     }

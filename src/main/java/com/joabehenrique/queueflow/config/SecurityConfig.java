@@ -32,7 +32,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests().anyRequest().anonymous();
         http.cors().and().csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
+        http.headers().frameOptions().disable();
 
         return http.build();
     }
