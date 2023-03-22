@@ -6,6 +6,7 @@ import com.joabehenrique.queueflow.dto.QueueDTO;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,11 +16,18 @@ public class MessageSender {
     private RabbitTemplate rabbitTemplate;
 
     @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
+
+    @Autowired
     private Queue myQueue;
 
-    public void sendMessage(QueueDTO message) throws JsonProcessingException {
+    public void sendMessageRabbitMQ(QueueDTO message) throws JsonProcessingException {
         String json = new ObjectMapper().writeValueAsString(message);
         rabbitTemplate.convertAndSend("queue-first", json);
-        rabbitTemplate.convertAndSend(myQueue.getName(), message);
+    }
+
+    public void sendMessageKafka(String topic, QueueDTO message)  throws JsonProcessingException{
+        String json = new ObjectMapper().writeValueAsString(message);
+        kafkaTemplate.send(topic, json);
     }
 }
