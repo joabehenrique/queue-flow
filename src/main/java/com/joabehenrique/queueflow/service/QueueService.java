@@ -14,7 +14,8 @@ public class QueueService {
     private MessageSender messageSender;
 
     public Queue processMyModel(QueueDTO queue) throws JsonProcessingException {
-        messageSender.sendMessage(queue);
+        messageSender.sendMessageRabbitMQ(queue);
+        messageSender.sendMessageKafka("my-topic", queue);
         Queue queueNew = new Queue(queue.getField1(), queue.getField2());
         return queueNew;
     }
